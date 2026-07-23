@@ -572,6 +572,16 @@ export class CommitMessage extends React.Component<
     })
   }
 
+  private onClearSummary = () => {
+    this.onSummaryChanged('')
+    this.summaryTextInput?.focus()
+  }
+
+  private onClearDescription = () => {
+    this.onDescriptionChanged('')
+    this.descriptionTextArea?.focus()
+  }
+
   private onSubmit = () => {
     this.createCommit()
   }
@@ -1714,9 +1724,20 @@ export class CommitMessage extends React.Component<
       !showRepoRuleCommitMessageFailureHint &&
       this.state.commitMessage.summary.length > IdealSummaryLength
 
+    const showClearSummaryButton =
+      this.state.commitMessage.summary.length > 0 &&
+      this.props.isCommitting !== true &&
+      this.props.isGeneratingCommitMessage !== true
+
+    const showClearDescriptionButton =
+      !!this.state.commitMessage.description &&
+      this.props.isCommitting !== true &&
+      this.props.isGeneratingCommitMessage !== true
+
     const summaryClassName = classNames('summary', {
       'with-trailing-icon':
         showRepoRuleCommitMessageFailureHint || showSummaryLengthHint,
+      'with-clear-button': showClearSummaryButton,
     })
     const summaryInputClassName = classNames('summary-field', 'nudge-arrow', {
       'nudge-arrow-left': this.props.shouldNudge === true,
@@ -1763,6 +1784,16 @@ export class CommitMessage extends React.Component<
             }
             spellcheck={commitSpellcheckEnabled}
           />
+          {showClearSummaryButton && (
+            <button
+              type="button"
+              className="clear-commit-message-button clear-summary-button"
+              aria-label="Clear commit summary"
+              onClick={this.onClearSummary}
+            >
+              <Octicon symbol={octicons.x} />
+            </button>
+          )}
           {showRepoRuleCommitMessageFailureHint &&
             this.renderRepoRuleCommitMessageFailureHint()}
           {showSummaryLengthHint && this.renderSummaryLengthHint()}
@@ -1800,6 +1831,16 @@ export class CommitMessage extends React.Component<
             }
             spellcheck={commitSpellcheckEnabled}
           />
+          {showClearDescriptionButton && (
+            <button
+              type="button"
+              className="clear-commit-message-button clear-description-button"
+              aria-label="Clear commit description"
+              onClick={this.onClearDescription}
+            >
+              <Octicon symbol={octicons.x} />
+            </button>
+          )}
           {this.renderActionBar()}
         </FocusContainer>
 

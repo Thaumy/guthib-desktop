@@ -100,6 +100,14 @@
       padding-right: 20px;
     }
 
+    &.with-clear-button input {
+      padding-right: var(--text-field-height);
+    }
+
+    &.with-trailing-icon.with-clear-button input {
+      padding-right: calc(var(--text-field-height) + 20px);
+    }
+
     .length-hint,
     .commit-message-failure-hint {
       $distanceFromEdge: 2px;
@@ -135,6 +143,39 @@
         color: var(--input-icon-error-color);
       }
     }
+
+    &.with-clear-button .length-hint,
+    &.with-clear-button .commit-message-failure-hint {
+      right: var(--text-field-height);
+    }
+  }
+
+  .clear-commit-message-button {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(var(--text-field-height) - 4px);
+    height: calc(var(--text-field-height) - 4px);
+    padding: 0;
+    border: 0;
+    border-radius: var(--border-radius);
+    background: none;
+    color: var(--text-color);
+
+    .octicon {
+      height: 12px;
+    }
+
+    &:hover {
+      background: var(--input-icon-hover-background-color);
+    }
+  }
+
+  .clear-summary-button {
+    top: 2px;
+    right: 2px;
   }
 
   .popover-component {
@@ -208,6 +249,7 @@
   }
 
   .description-focus-container {
+    position: relative;
     border: var(--contrast-border);
     border-radius: var(--border-radius);
     background: var(--background-color);
@@ -243,11 +285,20 @@
       resize: none;
       min-height: 100px;
 
+      &:not(:read-only) {
+        padding-right: var(--text-field-height);
+      }
+
       &:focus {
         outline: 0;
         border: none;
         box-shadow: none;
       }
+    }
+
+    .clear-description-button {
+      top: 1px;
+      right: 1px;
     }
 
     .action-bar {
